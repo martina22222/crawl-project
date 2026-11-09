@@ -1,0 +1,10 @@
+pandas
+numpy
+pyarrow
+scikit-learn
+matplotlib
+geopandas
+jupyter
+nbconvert
+nbformat
+ipykernel
