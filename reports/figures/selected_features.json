@@ -1,0 +1,46 @@
+{
+  "features": [
+    "hour",
+    "weekday",
+    "is_rush",
+    "pu_rate",
+    "do_rate",
+    "pair_rate",
+    "pu_slot_rate"
+  ],
+  "min_gain": 0.002,
+  "tree": {
+    "max_depth": 16,
+    "min_samples_leaf": 200
+  },
+  "logreg": {
+    "C": 1.0
+  },
+  "june": {
+    "1 always 'no crawl'": {
+      "pr_auc": 0.1854,
+      "pr_auc_lift": 1.0,
+      "lift@10%": 1.235
+    },
+    "2 busy-hours rule": {
+      "pr_auc": 0.2437,
+      "pr_auc_lift": 1.3146,
+      "lift@10%": 1.7688
+    },
+    "3 depth-2 tree": {
+      "pr_auc": 0.4501,
+      "pr_auc_lift": 2.4282,
+      "lift@10%": 3.333
+    },
+    "logistic regression": {
+      "pr_auc": 0.627,
+      "pr_auc_lift": 3.3829,
+      "lift@10%": 3.8306
+    },
+    "decision tree (depth 16)": {
+      "pr_auc": 0.6277,
+      "pr_auc_lift": 3.3866,
+      "lift@10%": 3.8164
+    }
+  }
+}
