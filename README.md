@@ -10,13 +10,13 @@ Source: NYC Taxi and Limousine Commission yellow taxi trip records, a fixed 200,
 
 ## Setup
 ```bash
-git clone <https://github.com/martina22222/crawl-project.git> && cd <crawl-project>
+git clone https://github.com/martina22222/crawl-project.git && cd crawl-project
 python -m venv .venv
 source .venv/bin/activate            # Windows Git Bash: source .venv/Scripts/activate
 python -m pip install -r requirements.txt
 python data/get_data.py
 ```
-Verified on Python 3.12.3 with the current versions pinned in requirements.txt
+Verified on Python 3.12.3 with the current versions pinned in requirements.txt.
 
 ## Running it
 ```bash
@@ -37,8 +37,6 @@ Takes a few minutes. Figures go to `reports/figures/`. Notebook 04 is the only p
 
 ## Results
 Results are added after notebook 04 (July is scored once there).
-
-The intervals show sampling noise within July only, not month-to-month drift. The crawl rate fell from 19.3% (May) to 16.3% (July), so precision fell and the threshold should be re-checked monthly.
 
 
 ## Limitations
