@@ -28,11 +28,12 @@ Takes a few minutes. Figures go to `reports/figures/`. Notebook 04 is the only p
 | Path | What |
 |---|---|
 | `data/get_data.py` | download script (raw data is not committed) |
-| `src/clean.py` | `build_dataset()` and the target, rebuilt from raw |
-| `src/features.py` | leak-free features, `ZoneHistory` (learns from May only, out-of-fold within May), `FORBIDDEN` list |
-| `src/models.py`, `src/evaluate.py` | models, baselines, metrics, costs, bootstrap |
+| `src/clean.py` | `build_dataset()` (rebuilds the clean, labelled, split table from raw), `audit_raw()` (findings table), `target_ladder()` |
+| `src/features.py` | leak-free features, `ZoneHistory` (learns from May only, out-of-fold within May), `FORBIDDEN` list, `make_pipeline()` |
+| `src/models.py`, `src/evaluate.py` | baselines, models, metrics and costs (the bootstrap for July is added in week 4) |
 | `notebooks/01..04` | frame, clean and split, features, evaluate |
-| `notebooks/_build.py` | script that generates the notebooks. Edit it if you edit notebook text |
+| `reports/figures/` | figures saved by the notebooks |
+| `reports/selected_features.json` | features and model settings chosen on June in notebook 03, loaded by notebook 04 |
 
 ## Results
 | July (scored once) | Value | 95% interval |
@@ -54,5 +55,5 @@ Regarding the codes inside of this project, some parts were made with the help o
 
 ## Team and contributions
 Martina: Project structure, README, PROBLEM, notebook-1
-Elisa:
+Elisa: cleaning function and findings table (`src/clean.py`), notebook-2; leak-free features and pipeline (`src/features.py`), baselines and metrics (`src/models.py`, `src/evaluate.py`), notebook-3
 Megi: 
