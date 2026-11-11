@@ -50,3 +50,50 @@ def metrics(y, p, thr: float = 0.5) -> dict:
 def metrics_table(rows: dict[str, tuple], y) -> pd.DataFrame:
     """rows: name -> (scores, threshold). Returns one metrics row per name."""
     return pd.DataFrame({name: metrics(y, p, thr) for name, (p, thr) in rows.items()}).T
+
+
+# --------------------------------------------------------------------------
+# Week 4: threshold from costs, reliability, bootstrap
+# --------------------------------------------------------------------------
+def cost_curve(y, p, thresholds=None, cost_fn: float = COST_FN, cost_fp: float = COST_FP) -> pd.DataFrame:
+    """Expected cost per 1,000 trips, precision, recall and share warned for each threshold."""
+    if thresholds is None:
+        thresholds = np.round(np.arange(0.02, 0.91, 0.01), 2)
+    y, p = np.asarray(y), np.asarray(p)
+    rows = []
+    for t in thresholds:
+        warn = p >= t
+        tp = np.sum(warn & (y == 1)); fp = np.sum(warn & (y == 0)); fn = np.sum(~warn & (y == 1))
+        rows.append({"threshold": t, "cost_per_1000": 1000 * (cost_fn * fn + cost_fp * fp) / len(y),
+                     "precision": tp / max(tp + fp, 1), "recall": tp / max(tp + fn, 1),
+                     "warned_%": 100 * warn.mean()})
+    return pd.DataFrame(rows)
+
+
+def best_threshold(y, p, cost_fn: float = COST_FN, cost_fp: float = COST_FP) -> float:
+    """Threshold with the lowest expected cost (chosen on validation, never on test)."""
+    c = cost_curve(y, p, cost_fn=cost_fn, cost_fp=cost_fp)
+    return float(c.loc[c.cost_per_1000.idxmin(), "threshold"])
+
+
+def reliability_table(y, p, bins: int = 10) -> pd.DataFrame:
+    """Mean predicted probability vs observed crawl rate, in equal-size bins of the score."""
+    d = pd.DataFrame({"y": np.asarray(y), "p": np.asarray(p)})
+    d["bin"] = pd.qcut(d.p.rank(method="first"), bins, labels=False)
+    return d.groupby("bin").agg(predicted=("p", "mean"), observed=("y", "mean"), trips=("y", "size"))
+
+
+def bootstrap(y, p, thr: float, n: int = 1000, seed: int = 0) -> pd.DataFrame:
+    """Percentile 95% intervals of the main metrics, resampling trips with replacement."""
+    y, p = np.asarray(y), np.asarray(p)
+    rng = np.random.default_rng(seed)
+    keys = ["pr_auc", "pr_auc_lift", "precision", "recall", "cost_per_1000", "lift@10%"]
+    draws = []
+    for _ in range(n):
+        i = rng.integers(0, len(y), len(y))
+        m = metrics(y[i], p[i], thr)
+        draws.append({k: m[k] for k in keys})
+    draws = pd.DataFrame(draws)
+    point = metrics(y, p, thr)
+    return pd.DataFrame({"value": {k: point[k] for k in keys},
+                         "low_95": draws.quantile(0.025), "high_95": draws.quantile(0.975)})
