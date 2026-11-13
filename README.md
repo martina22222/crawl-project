@@ -48,4 +48,4 @@ Regarding the codes inside of this project, some parts were made with the help o
 ## Team and contributions
 Martina: Project structure, README, PROBLEM, notebook-1
 Elisa: cleaning function and findings table (`src/clean.py`), notebook-2; leak-free features and pipeline (`src/features.py`), baselines and metrics (`src/models.py`, `src/evaluate.py`), notebook-3
-Megi: 
+Megi: Week 4 evaluation (notebooks/04-evaluate.ipynb), cost-based threshold, July holdout results, reliability and slice analysis, bootstrap confidence intervals, and model card (MODEL_CARD.md).

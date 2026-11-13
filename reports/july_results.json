@@ -1,0 +1,65 @@
+{
+  "model": "logistic regression",
+  "features": [
+    "hour",
+    "weekday",
+    "is_rush",
+    "pu_rate",
+    "do_rate",
+    "pair_rate",
+    "pu_slot_rate"
+  ],
+  "threshold": 0.26,
+  "costs": {
+    "missed_crawl": 3.0,
+    "needless_warning": 1.0
+  },
+  "june": {
+    "pr_auc": 0.6270290110423301,
+    "precision": 0.5058027869723346,
+    "recall": 0.7173283106345987,
+    "cost_per_1000": 287.0923387616551,
+    "never_warn_cost": 556.0628195763331,
+    "positive_rate": 0.18535427319211104
+  },
+  "july": {
+    "pr_auc": {
+      "value": 0.6102609229200933,
+      "low_95": 0.6039862225233027,
+      "high_95": 0.6163878829794506
+    },
+    "pr_auc_lift": {
+      "value": 3.7397627759924865,
+      "low_95": 3.700533415670744,
+      "high_95": 3.7803088848927513
+    },
+    "precision": {
+      "value": 0.45453477443609025,
+      "low_95": 0.45032952906290086,
+      "high_95": 0.45899315762024623
+    },
+    "recall": {
+      "value": 0.7666446499339498,
+      "low_95": 0.7621336349955855,
+      "high_95": 0.771566425907483
+    },
+    "cost_per_1000": {
+      "value": 264.3673205432205,
+      "low_95": 261.19826471222245,
+      "high_95": 267.16978335848245
+    },
+    "lift@10%": {
+      "value": 4.156208718626155,
+      "low_95": 4.11346915563099,
+      "high_95": 4.197246966804991
+    }
+  },
+  "july_never_warn_cost": 489.5451605949558,
+  "july_positive_rate": 0.1631817201983186,
+  "july_baselines_pr_auc": {
+    "1 always 'no crawl'": 0.1632,
+    "2 busy-hours rule": 0.2169,
+    "3 depth-2 tree": 0.4316,
+    "logistic regression (chosen)": 0.6103
+  }
+}
