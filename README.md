@@ -30,17 +30,39 @@ Takes a few minutes. Figures go to `reports/figures/`. Notebook 04 is the only p
 | `data/get_data.py` | download script (raw data is not committed) |
 | `src/clean.py` | `build_dataset()` (rebuilds the clean, labelled, split table from raw), `audit_raw()` (findings table), `target_ladder()` |
 | `src/features.py` | leak-free features, `ZoneHistory` (learns from May only, out-of-fold within May), `FORBIDDEN` list, `make_pipeline()` |
-| `src/models.py`, `src/evaluate.py` | baselines, models, metrics and costs (the bootstrap for July is added in week 4) |
+| `src/models.py`, `src/evaluate.py` | baselines, models, metrics and costs |
 | `notebooks/01..04` | frame, clean and split, features, evaluate |
 | `reports/figures/` | figures saved by the notebooks |
+| `reports/crawl-map.html` | interactive map, with the model embedded |
 | `reports/selected_features.json` | features and model settings chosen on June in notebook 03, loaded by notebook 04 |
 
 ## Results
-Results are added after notebook 04 (July is scored once there).
+
+Scored once on July (notebook 04) with the logistic regression and a threshold of 0.26, chosen on June. Intervals are 95% bootstrap intervals from 1,000 resamples of July trips.
+
+| Metric | June (validation) | July (test) | July 95% interval |
+|---|---|---|---|
+| PR AUC | 0.627 | 0.610 | 0.604 to 0.616 |
+| PR AUC lift | 3.38 | 3.74 | 3.70 to 3.78 |
+| Precision at 0.26 | 0.506 | 0.455 | 0.450 to 0.459 |
+| Recall at 0.26 | 0.717 | 0.767 | 0.762 to 0.772 |
+| Cost per 1,000 trips | 287 | 264 | 261 to 267 |
+| Cost per 1,000 trips if never warning | 556 | 490 | |
+
+Baselines on July (PR AUC):
+
+| Baseline | PR AUC |
+|---|---|
+| Always "no crawl" | 0.163 |
+| Busy-hours rule | 0.217 |
+| Depth-2 tree | 0.432 |
+| **Logistic regression (chosen)** | **0.610** |
+
+The intervals show sampling noise within July only, not the change from one month to the next. Details are in `MODEL_CARD.md`.
 
 
 ## Limitations
-About 30% of crawls get no warning and about half of the warnings are needless. The model is weak on weekends, evenings, nights, flex-fare trips, and outside Manhattan. The planned distance is estimated from past trips, there is no weather or traffic information, and the costs are our assumptions. See `MODEL_CARD.md`.
+In July about 1 in 4 crawls gets no warning and just over half of the warnings are needless. On June the warning misses about half of weekend crawls, most evening crawls, almost all night crawls, nearly everything outside Manhattan, and 47% of flex-fare crawls. There is no weather, traffic or event data, the costs are our assumptions, and the crawl rate falls from 19.3% (May) to 16.3% (July), so the threshold must be re-checked each month. See MODEL_CARD.md.
 
 ## AI assistance
 Regarding the codes inside of this project, some parts were made with the help of the claude ai model.
