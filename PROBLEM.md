@@ -8,13 +8,13 @@
 | **Target** | `crawl` = 1 if `trip_distance / duration_hours < 6` (labelling decisions below) |
 | **One row is** | One cleaned yellow-taxi trip (the raw table has no trip ID; zones and trips are joined on `LocationID` with a row-count check) |
 | **Predict at** | The moment the trip starts (pickup) |
-| **Allowed information** | Pickup time, pickup zone, drop-off zone, …boroughs and airport flags derived from them, and zone, zone-pair and zone-by-time-slot crawl rates learned from May only. An estimated planned distance was tested and dropped (see below) |
+| **Allowed information** | Pickup time, pickup zone, drop-off zone,boroughs and airport flags derived from them, and zone, zone-pair and zone-by-time-slot crawl rates learned from May only. An estimated planned distance was tested and dropped (see below) |
 | **Left out** | Drop-off time, duration, speed, measured `trip_distance`, `RatecodeID`, `payment_type`, all fares, fees, tips and totals, `passenger_count`; trips with zero or impossible distance or duration, negative amounts, unknown zones, no-charge / dispute / voided payments |
 | **Positive rate** | 19.31% in May after all labelling decisions (18.5% June, 16.3% July) |
 | **Decision it supports** | Warn the passenger (or not) before the trip starts |
 | **Costly mistake** | A missed crawl (cost 3) is worse than a needless warning (cost 1). Break-even precision = 1/3 |
 | **Metric** | PR AUC and PR AUC lift (never accuracy alone); precision and recall at the cost-chosen threshold; expected cost per 1,000 trips |
-| **Baseline to beat** | Depth-2 tree: June PR AUC 0.450, cost 349 per 1,000 trips at its best June threshold (364 at the fixed 0.30 used in notebook 01). See the ladder below.(see ladder below) |
+| **Baseline to beat** | Depth-2 tree: June PR AUC 0.450, cost 349 per 1,000 trips at its best June threshold (364 at the fixed 0.30 used in notebook 01). See the ladder below. |
 
 ## The question (one sentence)
 At the moment a yellow-taxi trip starts, can we tell from the pickup time, the pickup and drop-off zones and the learned zone statistics whether its average speed will end up under 6 mph, so a dispatcher can warn the passenger?
